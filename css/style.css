@@ -13,8 +13,8 @@ main{
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 3rem 0;
-    
+    padding-top: 2rem;
+    height: 550px;
 }
 .grid{
     width: 500px;
@@ -33,6 +33,12 @@ main{
 .checked{
     background-color: lightblue;
 }
+.unclickable{
+    background-color: transparent!important;
+}
 .bomb-exploded{
     background-color: red;
+}
+.result{
+    height: 50px;
 }

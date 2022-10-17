@@ -47,25 +47,51 @@ function play(){
             listOfBombs.push(random);
         }
     }
-    console.log(listOfBombs)
-
+    //contatore dei click dell'utente
+    let count = 0;
     //funzione che crea le celle
     function createCell(numb, grid){
+        //prendo e pulisco il campo dei risultati
+        const result = document.querySelector('.result');
+        result.innerHTML = ''
+        //creo la cella con le classi e gli stili in funzione della difficoltà
         const cell = addElementClassHTML('div', 'square', grid);
-        cell.innerHTML = numb;
+        // cell.innerHTML = numb;
         cell.style.width = `calc(100% / ${Math.sqrt(numCell)})`;
         cell.style.height = `calc(100% / ${Math.sqrt(numCell)})`;
+        cell.style.cursor = 'pointer';
+        //inserisco una variabile che conta i click
+        count = 0;
+        //distinguo se la cella che vado a creare è o non è una bomba
         if(listOfBombs.includes(numb)){
+            //aggiungo la classe bomba ad ogni cella bomba
             cell.classList.add('bomb');
             cell.addEventListener('click', function(){
+                //al click aggiungo ad ogni elemento bomba la classe che colora di rosso il background
                 const arrayBombs = document.querySelectorAll('.bomb');
                 for (let i = 0; i < arrayBombs.length; i++){
                     arrayBombs[i].classList.add('bomb-exploded');
                 }
+                //inoltre rendo il colore delle altre celle immutabile in modo che l'utente non possa più giocare
+                //selezionando tutte le celle non ancora cliccate
+                const arrayNotBombs = document.querySelectorAll('.clickable');
+                for (let i = 0; i < arrayNotBombs.length; i++){
+                    arrayNotBombs[i].classList.add('unclickable');
+                }
+                result.innerHTML = `Tentativi: ${count} Hai Perso!`
             })
         }else{
+            //assegno la classe clickable per distinguere le celle cliccabili dalle bombe
+            cell.classList.add('clickable');
             cell.addEventListener('click', function(){
-                cell.classList.add('checked')
+                //incremento il contatore dei click
+                if (cell.classList.contains('clickable') && !cell.classList.contains('unclickable')){
+                    count++;
+                    result.innerHTML = `Tentativi: ${count}`
+                }
+                //al click rendo la cella cliccata e le rimuovo la classe clickable
+                cell.classList.add('checked');
+                cell.classList.remove('clickable');
             })
         }
         

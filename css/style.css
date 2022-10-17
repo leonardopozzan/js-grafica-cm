@@ -9,3 +9,27 @@
 main{
     background-color: var(--sfondo);
 }
+.the-game{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem 0;
+    
+}
+.grid{
+    width: 500px;
+    height: 500px;
+    border: 2px solid red;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+.square{
+    border: 2px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.checked{
+    background-color: lightblue;
+}

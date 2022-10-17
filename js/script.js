@@ -9,11 +9,6 @@
 // - con difficoltà 2 => 81 caselle, con un numero compreso tra 1 e 81, divise in 9 caselle per 9 righe;
 // - con difficoltà 3 => 49 caselle, con un numero compreso tra 1 e 49, divise in 7 caselle per 7 righe;
 
-{/* <div class="grid">
-    <div class="square-easy">
-        <span>1</span>
-    </div>
-</div> */}
 
 const btn = document.querySelector('#btn');
 btn.addEventListener('click',play);
@@ -35,6 +30,9 @@ function play(){
             break;
         case 'crazy':
             numCell = 49
+            break;
+        case 'impossible':
+            numCell = 25
             break;
     }
 
@@ -67,18 +65,21 @@ function play(){
             //aggiungo la classe bomba ad ogni cella bomba
             cell.classList.add('bomb');
             cell.addEventListener('click', function(){
-                //al click aggiungo ad ogni elemento bomba la classe che colora di rosso il background
-                const arrayBombs = document.querySelectorAll('.bomb');
-                for (let i = 0; i < arrayBombs.length; i++){
-                    arrayBombs[i].classList.add('bomb-exploded');
+                //controllo che l'utente non abbia vinto
+                if (count != (numCell-COUNT_BOMBS)){
+                    //al click aggiungo ad ogni elemento bomba la classe che colora di rosso il background
+                    const arrayBombs = document.querySelectorAll('.bomb');
+                    for (let i = 0; i < arrayBombs.length; i++){
+                        arrayBombs[i].classList.add('bomb-exploded');
+                    }
+                    //inoltre rendo il colore delle altre celle immutabile in modo che l'utente non possa più giocare
+                    //selezionando tutte le celle non ancora cliccate
+                    const arrayNotBombs = document.querySelectorAll('.clickable');
+                    for (let i = 0; i < arrayNotBombs.length; i++){
+                        arrayNotBombs[i].classList.add('unclickable');
+                    }
+                    result.innerHTML = `Tentativi: ${count} Hai Perso!`
                 }
-                //inoltre rendo il colore delle altre celle immutabile in modo che l'utente non possa più giocare
-                //selezionando tutte le celle non ancora cliccate
-                const arrayNotBombs = document.querySelectorAll('.clickable');
-                for (let i = 0; i < arrayNotBombs.length; i++){
-                    arrayNotBombs[i].classList.add('unclickable');
-                }
-                result.innerHTML = `Tentativi: ${count} Hai Perso!`
             })
         }else{
             //assegno la classe clickable per distinguere le celle cliccabili dalle bombe
@@ -92,6 +93,15 @@ function play(){
                 //al click rendo la cella cliccata e le rimuovo la classe clickable
                 cell.classList.add('checked');
                 cell.classList.remove('clickable');
+
+                //condizione di vittoria
+                if (count == (numCell-COUNT_BOMBS)){
+                    const arrayBombs = document.querySelectorAll('.bomb');
+                    for (let i = 0; i < arrayBombs.length; i++){
+                        arrayBombs[i].classList.add('bomb-exploded');
+                    }
+                    result.innerHTML = `Tentativi: ${count} Hai Vinto!`
+                }
             })
         }
         

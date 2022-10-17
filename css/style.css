@@ -1,3 +1,4 @@
+/******************** Utility ***********************************/
 *{
     margin: 0;
     padding: 0;
@@ -9,6 +10,13 @@
 main{
     background-color: var(--sfondo);
 }
+/******************** debug ***********************************/
+/* .bomb{
+    background-color: yellow;
+} */
+
+/******************** classi del gioco ***********************************/
+
 .the-game{
     display: flex;
     justify-content: center;
@@ -19,7 +27,6 @@ main{
 .grid{
     width: 500px;
     height: 500px;
-    border: 2px solid red;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
@@ -29,6 +36,7 @@ main{
     display: flex;
     justify-content: center;
     align-items: center;
+    display: inline-block;
 }
 .checked{
     background-color: lightblue;

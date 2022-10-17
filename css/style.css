@@ -33,3 +33,6 @@ main{
 .checked{
     background-color: lightblue;
 }
+.bomb-exploded{
+    background-color: red;
+}

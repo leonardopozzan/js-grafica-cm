@@ -20,9 +20,11 @@ btn.addEventListener('click',play);
 const container = document.querySelector('.the-game');
 
 function play(){
+    //prendo e pulisco il container del gioco
     container.innerHTML = '';
     const difficulty = document.querySelector('#difficulty').value;
 
+    //scelgo il numero di celle 
     let numCell;
     switch (difficulty) {
         case 'easy':
@@ -35,21 +37,50 @@ function play(){
             numCell = 49
             break;
     }
+
+    //genero la lista delle posizioni delle bombe
+    let listOfBombs = [];
+    const COUNT_BOMBS = 16;
+    while(listOfBombs.length < COUNT_BOMBS){
+        const random = Math.floor(Math.random() * numCell) + 1;
+        if(!listOfBombs.includes(random)){
+            listOfBombs.push(random);
+        }
+    }
+    console.log(listOfBombs)
+
+    //funzione che crea le celle
+    function createCell(numb, grid){
+        const cell = addElementClassHTML('div', 'square', grid);
+        cell.innerHTML = numb;
+        cell.style.width = `calc(100% / ${Math.sqrt(numCell)})`;
+        cell.style.height = `calc(100% / ${Math.sqrt(numCell)})`;
+        if(listOfBombs.includes(numb)){
+            cell.classList.add('bomb');
+            cell.addEventListener('click', function(){
+                const arrayBombs = document.querySelectorAll('.bomb');
+                for (let i = 0; i < arrayBombs.length; i++){
+                    arrayBombs[i].classList.add('bomb-exploded');
+                }
+            })
+        }else{
+            cell.addEventListener('click', function(){
+                cell.classList.add('checked')
+            })
+        }
+        
+    }
+
+    //funzione che crea la griglia delle celle
     function drawGrid(){
         const grid = addElementClassHTML('div', 'grid', container);
         for (let i = 1; i <= numCell; i++){
             createCell(i,grid);
         }
     }
-    function createCell(numb, grid){
-        const cell = addElementClassHTML('div', 'square', grid);
-        cell.innerHTML = numb
-        cell.style.width = `calc(100% / ${Math.sqrt(numCell)})`
-        cell.style.height = `calc(100% / ${Math.sqrt(numCell)})`
-        cell.addEventListener('click', function(){
-            cell.classList.add('checked')
-        })
-    }
+    
     drawGrid()
+
+    
 
 }
